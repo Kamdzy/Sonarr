@@ -29,7 +29,7 @@ runs:
       with:
         name: ${{ inputs.artifact }}
         path: _output
-        
+
     - name: Download UI Artifact
       uses: actions/download-artifact@v4
       with:
@@ -52,24 +52,6 @@ runs:
       shell: bash
       run: $GITHUB_ACTION_PATH/package.sh
 
-    - name: Create Windows Installer (x64)
-      if: ${{ inputs.platform == 'windows' }}
-      working-directory: distribution/windows/setup
-      shell: cmd
-      run: |
-        SET RUNTIME=win-x64
-
-        build.bat
-
-    - name: Create Windows Installer (x86)
-      if: ${{ inputs.platform == 'windows' }}
-      working-directory: distribution/windows/setup
-      shell: cmd
-      run: |
-        SET RUNTIME=win-x86
-
-        build.bat
-
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
       with:
@@ -77,6 +59,4 @@ runs:
         compression-level: 0
         if-no-files-found: error
         path: |
-          _artifacts/*.exe
           _artifacts/*.tar.gz
-          _artifacts/*.zip
