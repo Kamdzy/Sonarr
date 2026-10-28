@@ -11,15 +11,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: tgymnich/fork-sync@v1.3
+      # v1.3 merged with GITHUB_TOKEN, which can't merge these PRs ("Resource not
+      # accessible by integration"). v2 does everything with one token; the PR is
+      # then the token owner's own, which GitHub won't let them approve, so no auto_approve.
+      - uses: tgymnich/fork-sync@v2.0.10
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          personal_token: ${{ secrets.REPOSITORY_ACCESS_TOKEN }}
+          token: ${{ secrets.REPOSITORY_ACCESS_TOKEN }}
           owner: Sonarr
           base: main
           head: develop
           merge_method: merge
           pr_message: 'Sync changes from upstream  to downstream'
           pr_title: Fork Sync
-          auto_approve: true
           auto_merge: true
